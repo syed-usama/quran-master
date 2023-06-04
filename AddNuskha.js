@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import SQLite from "react-native-sqlite-storage";
+import ImageCropPicker from "react-native-image-crop-picker";
 
 function AddNuskha({ route, navigation  }) {
   const type = route.params.type;
@@ -21,36 +22,46 @@ function AddNuskha({ route, navigation  }) {
   const [reference, setreference] = useState("");
   
   // console.log(type?.Category_Name,'--------------------');
-  const chooseFile = (type) => {
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-    };
-    launchImageLibrary(options, (response) => {
-      //console.log('Response = ', response);
-
-      if (response.didCancel) {
-        alert("User cancelled camera picker");
-        return;
-      } else if (response.errorCode == "camera_unavailable") {
-        alert("Camera not available on device");
-        return;
-      } else if (response.errorCode == "permission") {
-        alert("Permission not satisfied");
-        return;
-      } else if (response.errorCode == "others") {
-        alert(response.errorMessage);
-        return;
-      }
-      const filteredArray = response.assets.filter((item) => {
-        //console.log(item.base64);
-        setFilePath(item.uri);
-      });
-      //console.log(filePath);
+  const chooseFile = async(type) => {
+    ImageCropPicker.openPicker({
+      width: 300,
+      height: 550,
+      compressImageQuality: 1,
+      mediaType: 'photo',
+    }).then(image => {
+      setFilePath(image.path)
     });
-  };
+  }
+  // const chooseFile = (type) => {
+  //   let options = {
+  //     mediaType: type,
+  //     maxWidth: 300,
+  //     maxHeight: 550,
+  //     quality: 1,
+  //   };
+  //   launchImageLibrary(options, (response) => {
+  //     //console.log('Response = ', response);
+
+  //     if (response.didCancel) {
+  //       alert("User cancelled camera picker");
+  //       return;
+  //     } else if (response.errorCode == "camera_unavailable") {
+  //       alert("Camera not available on device");
+  //       return;
+  //     } else if (response.errorCode == "permission") {
+  //       alert("Permission not satisfied");
+  //       return;
+  //     } else if (response.errorCode == "others") {
+  //       alert(response.errorMessage);
+  //       return;
+  //     }
+  //     const filteredArray = response.assets.filter((item) => {
+  //       //console.log(item.base64);
+  //       setFilePath(item.uri);
+  //     });
+  //     //console.log(filePath);
+  //   });
+  // };
 
   const db = SQLite.openDatabase(
     {

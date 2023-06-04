@@ -43,7 +43,7 @@ const DetailComponent = ({ diseasedDtail,surahDetail,updateHistory,updateHistory
       
       if(success){
         setflag("0")
-         console.log('finished playing', success)
+        //  console.log('finished playing', success)
       }
     })
   const update = () => {
@@ -177,8 +177,13 @@ const DetailComponent = ({ diseasedDtail,surahDetail,updateHistory,updateHistory
       }
     })
      var namee = audio[cur].AudioFile;
-     var n =cur
-     setCur(n+1)
+     var n =cur+1
+     if(n >= audio.length){
+      
+      n =0;
+      update()
+     }
+     setCur(n)
     var a = "a";
     var String_3 = a.concat("", namee);
     var newstring = String_3.replace(".mp3", "");

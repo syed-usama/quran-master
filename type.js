@@ -69,10 +69,11 @@ function type({ route, navigation }) {
             Nuska.push({
               ...rows.item(i),
             });
-            setNuskha(Nuska);
           }(error) => {
             console.log(error);
         }
+        setNuskha(Nuska);
+        
         }
       );
     });
@@ -178,7 +179,7 @@ function type({ route, navigation }) {
        
         }}
       >
-        Nuskha of {type.Category_Name}
+        Nuskha o {type.Category_Name}
       </Text>
       <View
         style={{
@@ -193,7 +194,7 @@ function type({ route, navigation }) {
         numColumns={3}
         showsVerticalScrollIndicator={false}
         renderItem={({item,index})=>(
-          <TouchableOpacity key={index}
+          <TouchableOpacity key={item.id}
           onPress={() => navigation.navigate("NuskhaDetail", { detail: item })}>
             <Image
               source={{ uri: item.Image }}
